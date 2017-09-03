@@ -20,6 +20,9 @@ class ShapeImageView : ImageView {
     private lateinit var drawPaint: Paint
     private lateinit var bitmap: Bitmap
 
+    private var imageShape = ImageShape.CIRCLE
+    private lateinit var path: Path
+
     constructor(context: Context) : super(context) {
         init(context, null)
     }
@@ -40,7 +43,12 @@ class ShapeImageView : ImageView {
         drawPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
         drawPaint.style = Paint.Style.FILL
         drawPaint.shader = bitmapShader
+    }
 
+    private fun setImageShape(imageShape: ImageShape) {
+        this.imageShape = imageShape
+        this.path = imageShape.path(drawRect)
+        invalidate()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -55,6 +63,7 @@ class ShapeImageView : ImageView {
             shaderMatrix.setRectToRect(bitmapRect, drawRect, Matrix.ScaleToFit.CENTER)
             bitmapShader.setLocalMatrix(shaderMatrix)
 
+            this.path = imageShape.path(drawRect)
         }
         super.onSizeChanged(w, h, oldw, oldh)
     }
@@ -62,7 +71,7 @@ class ShapeImageView : ImageView {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if (drawRect.width() > 0F && drawRect.height() > 0F) {
-            canvas!!.drawCircle(drawRect.centerX(), drawRect.centerY(), drawRect.width() / 2, drawPaint)
+            canvas!!.drawPath(path, drawPaint)
         }
     }
 
