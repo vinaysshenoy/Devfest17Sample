@@ -20,7 +20,7 @@ class ShapeImageView : ImageView {
     private lateinit var drawPaint: Paint
     private lateinit var bitmap: Bitmap
 
-    private var imageShape = ImageShape.CIRCLE
+    private var imageShape = ImageShape.ROUNDED_SQUARE
     private lateinit var path: Path
 
     constructor(context: Context) : super(context) {
