@@ -47,6 +47,18 @@ enum class ImageShape {
             path.addRoundRect(bounds.centerX() - delta, bounds.centerY() - delta, bounds.centerX() + delta, bounds.centerY() + delta, cornerRadius, cornerRadius, Path.Direction.CW)
             return path
         }
+    },
+    TRIANGLE {
+        override fun path(bounds: RectF): Path {
+            val path = Path()
+
+            path.moveTo(bounds.centerX(), bounds.top)
+            path.lineTo(bounds.right, bounds.bottom)
+            path.lineTo(bounds.left, bounds.bottom)
+            path.lineTo(bounds.centerX(), bounds.top)
+
+            return path
+        }
     };
 
     abstract fun path(bounds: RectF): Path

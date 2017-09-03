@@ -45,7 +45,7 @@ class ShapeImageView : ImageView {
         drawPaint.shader = bitmapShader
     }
 
-    private fun setImageShape(imageShape: ImageShape) {
+    fun setImageShape(imageShape: ImageShape) {
         this.imageShape = imageShape
         this.path = imageShape.path(drawRect)
         invalidate()

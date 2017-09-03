@@ -17,6 +17,28 @@
         android:id="@+id/iv_shapeImageViewCircle"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:padding="8dp"
+        />
+
+    <com.vinaysshenoy.devfest17sample.widget.shapeimageview.ShapeImageView
+        android:id="@+id/iv_shapeImageViewSquare"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:padding="8dp"
+        />
+
+    <com.vinaysshenoy.devfest17sample.widget.shapeimageview.ShapeImageView
+        android:id="@+id/iv_shapeImageViewRoundedSquare"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:padding="8dp"
+        />
+
+    <com.vinaysshenoy.devfest17sample.widget.shapeimageview.ShapeImageView
+        android:id="@+id/iv_shapeImageViewTriangle"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:padding="8dp"
         />
 
 
