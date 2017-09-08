@@ -11,6 +11,16 @@
         android:theme="@style/AppTheme">
 
         <activity
+            android:name=".BackgroundTextureImageViewActivity"
+            android:label="@string/background_texture">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+        <activity
             android:name=".BackgroundsAndBordersActivity"
             android:label="@string/backgrounds_and_borders">
             <intent-filter>
@@ -22,15 +32,6 @@
         <activity
             android:name=".ShapeImageViewActivity"
             android:label="@string/image_shapes">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".BackgroundTextureImageViewActivity"
-            android:label="@string/background_texture">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

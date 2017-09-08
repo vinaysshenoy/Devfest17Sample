@@ -12,6 +12,6 @@ class BackgroundTextureImageViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backgroundtexture_imageview)
-        cbv_sender.text = "Android is awesome!"
+        cbv_sender.text = "Android is awesome! \nI write awesome apps."
     }
 }
