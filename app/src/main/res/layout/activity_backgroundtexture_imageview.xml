@@ -7,10 +7,11 @@
     tools:context="com.vinaysshenoy.devfest17sample.BackgroundsAndBordersActivity"
     >
 
-    <com.vinaysshenoy.devfest17sample.widget.backgroundtextureview.BackgroundTextureView
-        android:id="@+id/iv_backgroundImageView"
+    <com.vinaysshenoy.devfest17sample.widget.chatbubbleview.ChatBubbleView
+        android:id="@+id/cbv_sender"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
         />
 
 </FrameLayout>
