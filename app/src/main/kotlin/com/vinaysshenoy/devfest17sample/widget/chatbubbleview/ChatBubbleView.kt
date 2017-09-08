@@ -50,14 +50,14 @@ class ChatBubbleView : View {
         val w = View.resolveSizeAndState(paddingLeft + paddingRight + suggestedMinimumWidth, widthMeasureSpec, 1)
 //        val h = View.resolveSizeAndState(paddingTop + paddingBottom + textLayout.height, heightMeasureSpec, 0)
 
-        var h = 0
+        var h = paddingTop + paddingBottom
 
         for (lineNumber in 0 until textLayout.lineCount) {
             textLayout.getLineBounds(lineNumber, lineBounds)
             h += lineBounds.height()
         }
 
-        setMeasuredDimension(w, h + paddingTop + paddingBottom)
+        setMeasuredDimension(w, h)
     }
 
     constructor(context: Context?) : super(context) {
