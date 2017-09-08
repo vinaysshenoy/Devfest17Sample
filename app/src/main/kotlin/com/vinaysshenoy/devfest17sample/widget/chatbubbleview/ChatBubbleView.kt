@@ -24,11 +24,15 @@ class ChatBubbleView : View {
 
     private lateinit var textPaint: TextPaint
 
+    private val lineBounds = Rect()
+
     var text: String = ""
         set(value) {
             field = value
             updateTextLayout()
-            requestLayout()
+            post({
+                requestLayout()
+            })
         }
 
     private lateinit var textLayout: StaticLayout
@@ -38,14 +42,22 @@ class ChatBubbleView : View {
                 text,
                 textPaint,
                 Math.min(width * 0.4F, StaticLayout.getDesiredWidth(text, textPaint)).toInt(),
-                Layout.Alignment.ALIGN_NORMAL, 1.0F, 1.0F, false)
+                Layout.Alignment.ALIGN_NORMAL, 1F, 0F, false)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
         val w = View.resolveSizeAndState(paddingLeft + paddingRight + suggestedMinimumWidth, widthMeasureSpec, 1)
-        val h = View.resolveSizeAndState(paddingTop + paddingBottom + textLayout!!.height, heightMeasureSpec, 0)
-        setMeasuredDimension(w, h)
+//        val h = View.resolveSizeAndState(paddingTop + paddingBottom + textLayout.height, heightMeasureSpec, 0)
+
+        var h = 0
+
+        for (lineNumber in 0 until textLayout.lineCount) {
+            textLayout.getLineBounds(lineNumber, lineBounds)
+            h += lineBounds.height()
+        }
+
+        setMeasuredDimension(w, h + paddingTop + paddingBottom)
     }
 
     constructor(context: Context?) : super(context) {
@@ -71,7 +83,7 @@ class ChatBubbleView : View {
         textPaint.hinting = Paint.HINTING_ON
         textPaint.style = Paint.Style.FILL
         textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 24F, Resources.getSystem().displayMetrics)
-        textPaint.color = Color.BLACK
+        textPaint.color = Color.WHITE
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -81,14 +93,19 @@ class ChatBubbleView : View {
             drawRect.right -= paddingEnd
             drawRect.top += paddingTop
             drawRect.bottom -= paddingBottom
-
         }
         super.onSizeChanged(w, h, oldw, oldh)
-        updateTextLayout()
+        post({
+            updateTextLayout()
+        })
     }
 
     override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
+        super.onDraw(canvas!!)
+        canvas.drawColor(Color.BLACK)
+        val saveCount = canvas.save()
+        canvas.translate(paddingLeft.toFloat(), paddingTop.toFloat())
         textLayout.draw(canvas)
+        canvas.restoreToCount(saveCount)
     }
 }
