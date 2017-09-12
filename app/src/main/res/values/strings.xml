@@ -4,5 +4,5 @@
     <string name="text">Text</string>
     <string name="backgrounds_and_borders"><![CDATA[Backgrounds & Borders]]></string>
     <string name="image_shapes"><![CDATA[Image Shapes]]></string>
-    <string name="background_texture"><![CDATA[Background Textures]]></string>
+    <string name="background_texture"><![CDATA[Chat Bubbles]]></string>
 </resources>
