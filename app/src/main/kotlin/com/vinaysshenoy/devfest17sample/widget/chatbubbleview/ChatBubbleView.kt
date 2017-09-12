@@ -33,7 +33,8 @@ class ChatBubbleView : View {
 
     private val lineBounds = Rect()
     private val bubbleBounds = RectF()
-
+    private val bubblePath = Path()
+    private val cacheRect = RectF()
 
     var text: String = ""
         set(value) {
@@ -115,7 +116,16 @@ class ChatBubbleView : View {
             bubbleBounds.right += bubbleToTextMargin * 2
             bubbleBounds.bottom += bubbleToTextMargin * 2
 
-            LOGGER.info("Bubble bounds: ${bubbleBounds.width()} x ${bubbleBounds.height()}")
+            bubblePath.reset()
+
+            cacheRect.set(bubbleBounds)
+            cacheRect.inset(bubbleBounds.width() * 0.04F, bubbleBounds.height() * 0.075F)
+            bubblePath.addRoundRect(cacheRect, cornerRadius, cornerRadius, Path.Direction.CW)
+
+            val edgeSize = bubbleBounds.width() * 0.08F
+            cacheRect.set(bubbleBounds.left, bubbleBounds.bottom - edgeSize, bubbleBounds.left + edgeSize, bubbleBounds.bottom)
+            bubblePath.addRect(cacheRect, Path.Direction.CW)
+
         }
         super.onSizeChanged(w, h, oldw, oldh)
         post({
@@ -126,7 +136,7 @@ class ChatBubbleView : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas!!)
         canvas.drawColor(Color.LTGRAY)
-        canvas.drawRoundRect(bubbleBounds, cornerRadius, cornerRadius, drawPaint)
+        canvas.drawPath(bubblePath, drawPaint)
         val saveCount = canvas.save()
         canvas.translate(paddingLeft.toFloat() + bubbleToTextMargin, paddingTop.toFloat() + bubbleToTextMargin)
         textLayout.draw(canvas)
