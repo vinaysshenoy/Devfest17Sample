@@ -83,7 +83,7 @@ class ChatBubbleView : View {
     private fun init(context: Context, attrs: AttributeSet?) {
 
         if (!isInEditMode) {
-            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chat_background)
+            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chat_background_3)
             bitmapShader = BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
         }
 
@@ -100,7 +100,7 @@ class ChatBubbleView : View {
         textPaint.hinting = Paint.HINTING_ON
         textPaint.style = Paint.Style.FILL
         textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20F, Resources.getSystem().displayMetrics)
-        textPaint.color = Color.BLACK
+        textPaint.color = Color.LTGRAY
 
         bubbleToTextMargin = 16F * Resources.getSystem().displayMetrics.density
         cornerRadius = 4F * Resources.getSystem().displayMetrics.density
