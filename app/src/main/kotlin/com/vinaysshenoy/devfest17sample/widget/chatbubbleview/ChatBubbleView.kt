@@ -10,11 +10,16 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import com.vinaysshenoy.devfest17sample.R
+import java.util.logging.Logger
 
 /**
  * Created by vinaysshenoy on 06/09/17.
  */
 class ChatBubbleView : View {
+
+    companion object {
+        val LOGGER = Logger.getLogger("ChatBubbleView")
+    }
 
     private val drawRect = RectF()
 
@@ -88,7 +93,7 @@ class ChatBubbleView : View {
         textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18F, Resources.getSystem().displayMetrics)
         textPaint.color = Color.WHITE
 
-        bubbleToTextMargin = 12F * Resources.getSystem().displayMetrics.density
+        bubbleToTextMargin = 16F * Resources.getSystem().displayMetrics.density
         cornerRadius = 4F * Resources.getSystem().displayMetrics.density
 
     }
@@ -101,9 +106,15 @@ class ChatBubbleView : View {
             drawRect.top += paddingTop
             drawRect.bottom -= paddingBottom
 
-            bubbleBounds.set(paddingStart.toFloat(), paddingTop.toFloat(), textLayout.width.toFloat(), textLayout.height.toFloat())
-            bubbleBounds.right += bubbleToTextMargin * 2F
-            bubbleBounds.bottom += bubbleToTextMargin * 2F
+            val left = paddingStart.toFloat()
+            val top = paddingTop.toFloat()
+            val right = left + textLayout.width.toFloat()
+            val bottom = top + textLayout.height.toFloat()
+            bubbleBounds.set(left, top, right, bottom)
+
+            LOGGER.info("Bubble bounds: ${bubbleBounds.width()} x ${bubbleBounds.height()}")
+            //bubbleBounds.right += bubbleToTextMargin * 2F
+            //bubbleBounds.bottom += bubbleToTextMargin * 2F
         }
         super.onSizeChanged(w, h, oldw, oldh)
         post({
@@ -116,7 +127,7 @@ class ChatBubbleView : View {
         canvas.drawColor(Color.LTGRAY)
         canvas.drawRoundRect(bubbleBounds, cornerRadius, cornerRadius, drawPaint)
         val saveCount = canvas.save()
-        canvas.translate(paddingLeft.toFloat() + bubbleToTextMargin, paddingTop.toFloat() + bubbleToTextMargin)
+        canvas.translate(paddingLeft.toFloat() /*+ bubbleToTextMargin*/, paddingTop.toFloat() /*+ bubbleToTextMargin*/)
         textLayout.draw(canvas)
         canvas.restoreToCount(saveCount)
     }
