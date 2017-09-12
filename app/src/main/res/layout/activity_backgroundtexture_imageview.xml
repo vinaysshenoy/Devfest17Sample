@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.vinaysshenoy.devfest17sample.BackgroundsAndBordersActivity"
+    android:orientation="vertical"
     >
 
     <com.vinaysshenoy.devfest17sample.widget.chatbubbleview.ChatBubbleView
-        android:id="@+id/cbv_sender"
+        android:id="@+id/cbv_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="12dp"
         />
 
-</FrameLayout>
+    <com.vinaysshenoy.devfest17sample.widget.chatbubbleview.ChatBubbleView
+        android:id="@+id/cbv_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        />
+
+</LinearLayout>

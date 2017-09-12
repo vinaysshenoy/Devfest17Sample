@@ -19,6 +19,7 @@ class ChatBubbleView : View {
 
     companion object {
         val LOGGER = Logger.getLogger("ChatBubbleView")!!
+        val DEBUG_BOUNDS = false
     }
 
     private val drawRect = RectF()
@@ -26,6 +27,7 @@ class ChatBubbleView : View {
     private lateinit var bitmapShader: BitmapShader
     private lateinit var drawPaint: Paint
     private lateinit var bitmap: Bitmap
+    private lateinit var boundsPaint: Paint
 
     private lateinit var textPaint: TextPaint
     private var bubbleToTextMargin = 0F
@@ -34,6 +36,7 @@ class ChatBubbleView : View {
     private val lineBounds = Rect()
     private val bubbleBounds = RectF()
     private val bubblePath = Path()
+    private val bubbleTrianglePath = Path()
     private val cacheRect = RectF()
 
     var text: String = ""
@@ -80,7 +83,7 @@ class ChatBubbleView : View {
     private fun init(context: Context, attrs: AttributeSet?) {
 
         if (!isInEditMode) {
-            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.texture)
+            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chat_background)
             bitmapShader = BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
         }
 
@@ -88,11 +91,16 @@ class ChatBubbleView : View {
         drawPaint.style = Paint.Style.FILL
         drawPaint.shader = bitmapShader
 
+        boundsPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        boundsPaint.style = Paint.Style.STROKE
+        boundsPaint.strokeWidth = 1F * Resources.getSystem().displayMetrics.density
+        boundsPaint.color = Color.DKGRAY
+
         textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
         textPaint.hinting = Paint.HINTING_ON
         textPaint.style = Paint.Style.FILL
-        textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18F, Resources.getSystem().displayMetrics)
-        textPaint.color = Color.WHITE
+        textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20F, Resources.getSystem().displayMetrics)
+        textPaint.color = Color.BLACK
 
         bubbleToTextMargin = 16F * Resources.getSystem().displayMetrics.density
         cornerRadius = 4F * Resources.getSystem().displayMetrics.density
@@ -117,14 +125,21 @@ class ChatBubbleView : View {
             bubbleBounds.bottom += bubbleToTextMargin * 2
 
             bubblePath.reset()
+            bubbleTrianglePath.reset()
 
             cacheRect.set(bubbleBounds)
-            cacheRect.inset(bubbleBounds.width() * 0.04F, bubbleBounds.height() * 0.075F)
+            cacheRect.inset(bubbleBounds.width() * 0.04F, bubbleBounds.width() * 0.04F)
             bubblePath.addRoundRect(cacheRect, cornerRadius, cornerRadius, Path.Direction.CW)
 
             val edgeSize = bubbleBounds.width() * 0.08F
             cacheRect.set(bubbleBounds.left, bubbleBounds.bottom - edgeSize, bubbleBounds.left + edgeSize, bubbleBounds.bottom)
-            bubblePath.addRect(cacheRect, Path.Direction.CW)
+
+            bubbleTrianglePath.moveTo(cacheRect.centerX(), cacheRect.top)
+            bubbleTrianglePath.lineTo(cacheRect.left, cacheRect.bottom)
+            bubbleTrianglePath.lineTo(cacheRect.right, cacheRect.centerY())
+            bubbleTrianglePath.lineTo(cacheRect.centerX(), cacheRect.top)
+
+            bubblePath.op(bubbleTrianglePath, Path.Op.UNION)
 
         }
         super.onSizeChanged(w, h, oldw, oldh)
@@ -135,8 +150,10 @@ class ChatBubbleView : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas!!)
-        canvas.drawColor(Color.LTGRAY)
         canvas.drawPath(bubblePath, drawPaint)
+        if (DEBUG_BOUNDS) {
+            canvas.drawRect(bubbleBounds, boundsPaint)
+        }
         val saveCount = canvas.save()
         canvas.translate(paddingLeft.toFloat() + bubbleToTextMargin, paddingTop.toFloat() + bubbleToTextMargin)
         textLayout.draw(canvas)
