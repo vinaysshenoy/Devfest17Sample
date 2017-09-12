@@ -18,7 +18,7 @@ import java.util.logging.Logger
 class ChatBubbleView : View {
 
     companion object {
-        val LOGGER = Logger.getLogger("ChatBubbleView")
+        val LOGGER = Logger.getLogger("ChatBubbleView")!!
     }
 
     private val drawRect = RectF()
@@ -112,9 +112,10 @@ class ChatBubbleView : View {
             val bottom = top + textLayout.height.toFloat()
             bubbleBounds.set(left, top, right, bottom)
 
+            bubbleBounds.right += bubbleToTextMargin * 2
+            bubbleBounds.bottom += bubbleToTextMargin * 2
+
             LOGGER.info("Bubble bounds: ${bubbleBounds.width()} x ${bubbleBounds.height()}")
-            //bubbleBounds.right += bubbleToTextMargin * 2F
-            //bubbleBounds.bottom += bubbleToTextMargin * 2F
         }
         super.onSizeChanged(w, h, oldw, oldh)
         post({
@@ -127,7 +128,7 @@ class ChatBubbleView : View {
         canvas.drawColor(Color.LTGRAY)
         canvas.drawRoundRect(bubbleBounds, cornerRadius, cornerRadius, drawPaint)
         val saveCount = canvas.save()
-        canvas.translate(paddingLeft.toFloat() /*+ bubbleToTextMargin*/, paddingTop.toFloat() /*+ bubbleToTextMargin*/)
+        canvas.translate(paddingLeft.toFloat() + bubbleToTextMargin, paddingTop.toFloat() + bubbleToTextMargin)
         textLayout.draw(canvas)
         canvas.restoreToCount(saveCount)
     }
