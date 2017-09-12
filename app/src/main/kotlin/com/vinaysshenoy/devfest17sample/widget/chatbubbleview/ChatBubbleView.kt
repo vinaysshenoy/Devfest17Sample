@@ -85,7 +85,7 @@ class ChatBubbleView : View {
         textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
         textPaint.hinting = Paint.HINTING_ON
         textPaint.style = Paint.Style.FILL
-        textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16F, Resources.getSystem().displayMetrics)
+        textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18F, Resources.getSystem().displayMetrics)
         textPaint.color = Color.WHITE
 
         bubbleToTextMargin = 12F * Resources.getSystem().displayMetrics.density
